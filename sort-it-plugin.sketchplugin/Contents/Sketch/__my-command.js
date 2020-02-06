@@ -196,7 +196,7 @@ function categorieGenerator(sketchCard, categories) {
   } else {
     var _loop = function _loop(i) {
       var ids = [];
-      categories[i] === undefined ? (ids.push(cardArchitecture.categoriesGroup.id), ids.push(cardArchitecture.categoriesGroup.categories.id[i]), sketchCard.overrides.find(function (override) {
+      categories[i] === undefined || categories[i].label === "SYSTEM-ATTRIBUTE-display-as" ? (ids.push(cardArchitecture.categoriesGroup.id), ids.push(cardArchitecture.categoriesGroup.categories.id[i]), sketchCard.overrides.find(function (override) {
         return override.id === idCombiner(ids, cardArchitecture.categoriesGroup.categories.type);
       }).value = "") : (ids.push(cardArchitecture.categoriesGroup.id), ids.push(cardArchitecture.categoriesGroup.categories.id[i]), ids.push(cardArchitecture.categoriesGroup.categories.categorie.id), ids.push(cardArchitecture.categoriesGroup.categories.categorie.text.id), sketchCard.overrides.find(function (override) {
         return override.id === idCombiner(ids, cardArchitecture.categoriesGroup.categories.categorie.text.type);

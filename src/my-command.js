@@ -126,7 +126,8 @@ function categorieGenerator(sketchCard, categories) {
       i++
     ) {
       const ids = [];
-      categories[i] === undefined
+      categories[i] === undefined ||
+      categories[i].label === "SYSTEM-ATTRIBUTE-display-as"
         ? (ids.push(cardArchitecture.categoriesGroup.id),
           ids.push(cardArchitecture.categoriesGroup.categories.id[i]),
           (sketchCard.overrides.find(
