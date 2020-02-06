@@ -1,6 +1,6 @@
-# Sort-It-plugin
-
 ![alt test](Sort-It.png)
+
+# Sort-It-plugin
 
 ## Installation
 
