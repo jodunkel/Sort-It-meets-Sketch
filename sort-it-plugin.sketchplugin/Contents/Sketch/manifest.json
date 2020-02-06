@@ -1,0 +1,25 @@
+{
+  "$schema": "https://raw.githubusercontent.com/sketch-hq/SketchAPI/develop/docs/sketch-plugin-manifest-schema.json",
+  "icon": "icon.png",
+  "commands": [
+    {
+      "name": "Sort-It-to-Sketch",
+      "identifier": "sort-it.my-command-identifier",
+      "script": "__my-command.js"
+    }
+  ],
+  "menu": {
+    "title": "Sort-It",
+    "items": [
+      "sort-it.my-command-identifier"
+    ]
+  },
+  "version": "0.1.0",
+  "description": "",
+  "name": "Sort-It-plugin",
+  "identifier": "Sort-It-plugin",
+  "disableCocoaScriptPreprocessor": true,
+  "appcast": "https://raw.githubusercontent.com//master/.appcast.xml",
+  "author": "Jonas Dunkel",
+  "authorEmail": "35904825+jodunkel@users.noreply.github.com"
+}

@@ -1,0 +1,349 @@
+var globalThis = this;
+var global = this;
+function __skpm_run (key, context) {
+  globalThis.context = context;
+  try {
+
+var exports =
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/my-command.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./src/my-command.js":
+/*!***************************!*\
+  !*** ./src/my-command.js ***!
+  \***************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sketch */ "sketch");
+/* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sketch__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+// import sketch from "sketch";
+// import { Document, Shape, UI, Style, Page } from "sketch";
+ // import sketchDom from "sketch/dom";
+// import data from "./instruction-v2.json";
+
+var cardArchitecture = {
+  title: {
+    id: "C767CA97-276D-4799-B23C-CB9DA65E2A3B",
+    type: "stringValue"
+  },
+  content: {
+    id: "E0D94CA4-7624-4B01-B47B-25700F51D7B8",
+    type: "stringValue"
+  },
+  categoriesGroup: {
+    id: "7948EBBE-E43B-42E4-8AB2-992A43792EC0",
+    type: "symbolID",
+    categories: {
+      id: ["0FE9DD91-A17D-4906-8739-689B27B7C006", "68E32435-0BE7-46E9-8CBA-BD7427B5A501", "AB2E3712-55C4-4198-B755-ED242F2BDED8", "369F3B7D-FBFA-4E58-BE9D-52BD9958EB57", "9C153CF4-A26E-45DB-9F01-314F8E589EAD", "B122D53C-5DF3-494D-A6D0-6746C8FB275E"],
+      type: "symbolID",
+      tags: {
+        id: ["87FB5A5C-FB0C-47DD-9030-AD6BA6799DAA", "4CEE0DA3-18E4-4FF3-A938-E4A4063C0D31", "26D1061E-09F1-4E7F-9707-D623797112AF", "2A3EBFE0-B8B5-4B4F-8667-3D27DF18E835", "316FA649-A5FF-4D17-A020-C3D117ABC8B5", "EA2D6FC6-3437-418E-BCC0-98100C73EB2C", "5B3CC679-5A5C-441D-AECF-45518D9BE713", "3AA957B4-0D31-455C-AC92-3B77CCFE3826", "D6956B0D-FAF4-482F-BA48-A00ED1336DC7"],
+        type: "symbolID",
+        title: {
+          id: "92A23017-35C8-4F6D-9CA0-89861E04F060",
+          type: "stringValue"
+        },
+        background: {
+          id: "421B726F-8722-4338-BB22-55AE13E67A32",
+          type: "layerStyle"
+        }
+      },
+      categorie: {
+        id: "8876C8D9-3203-4E5E-8222-185741B06B34",
+        type: "symbolID",
+        text: {
+          id: "238D1655-275C-4209-A801-B111EDFC4E00",
+          type: "stringValue"
+        }
+      }
+    }
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  var path = process.cwd();
+  sketch__WEBPACK_IMPORTED_MODULE_0__["Document"].open(path.concat("/Contents/Resources/Sort-It.sketch"), function (err, document) {
+    if (err) {
+      console.error(err);
+      sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Oops something went wrong 😬");
+      document.close();
+      return; // oh no, we failed to open the document
+    } // console.log(require("os").homedir());
+
+
+    sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Choose your Sort-It File", "It must be a JSON file exported from Sort-It!");
+    var sortItData = loadJSON();
+
+    if (sortItData == false || sortItData == undefined) {
+      sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Oops something went wrong 😬", "You must select a Sort-It file to continue. If you have selected a file, something has gone wrong.");
+      document.close();
+      return;
+    } // let sortItData = data;
+
+
+    controler(document, sortItData);
+    document.save(__webpack_require__(/*! path */ "path").join(__webpack_require__(/*! os */ "os").homedir(), "Desktop").concat("/sort-it.sketch"), {
+      saveMode: sketch__WEBPACK_IMPORTED_MODULE_0__["Document"].SaveMode.SaveAs
+    });
+    sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].message("The file has been saved to your desktop. 💾 ");
+  });
+});
+
+function idCombiner(ids, type) {
+  var newId = [];
+  _typeof(ids) === "object" ? newId.push(ids.join("/")) : newId.push(ids);
+  return type === undefined ? newId[0] : (newId.push(type), newId.join("_"));
+}
+
+function categorieGenerator(sketchCard, categories) {
+  var overrideValues = [];
+
+  if (categories.length == 0) {
+    var ids = [];
+    ids.push(cardArchitecture.categoriesGroup.id);
+    sketchCard.overrides.find(function (override) {
+      return override.id === idCombiner(ids, cardArchitecture.categoriesGroup.type);
+    }).value = "";
+  } else {
+    var _loop = function _loop(i) {
+      var ids = [];
+      categories[i] === undefined ? (ids.push(cardArchitecture.categoriesGroup.id), ids.push(cardArchitecture.categoriesGroup.categories.id[i]), sketchCard.overrides.find(function (override) {
+        return override.id === idCombiner(ids, cardArchitecture.categoriesGroup.categories.type);
+      }).value = "") : (ids.push(cardArchitecture.categoriesGroup.id), ids.push(cardArchitecture.categoriesGroup.categories.id[i]), ids.push(cardArchitecture.categoriesGroup.categories.categorie.id), ids.push(cardArchitecture.categoriesGroup.categories.categorie.text.id), sketchCard.overrides.find(function (override) {
+        return override.id === idCombiner(ids, cardArchitecture.categoriesGroup.categories.categorie.text.type);
+      }).value = categories[i].label, tagGenerator(sketchCard, categories[i].value, cardArchitecture.categoriesGroup.categories.id[i]));
+    };
+
+    for (var i = 0; i < cardArchitecture.categoriesGroup.categories.id.length; i++) {
+      _loop(i);
+    }
+  }
+
+  return overrideValues;
+}
+
+function tagGenerator(sketchCard, tags, categorieID) {
+  var _loop2 = function _loop2(i) {
+    var ids = [];
+    tags[i] === undefined ? (ids.push(cardArchitecture.categoriesGroup.id), ids.push(categorieID), ids.push(cardArchitecture.categoriesGroup.categories.tags.id[i]), sketchCard.overrides.find(function (override) {
+      return override.id === idCombiner(ids, cardArchitecture.categoriesGroup.categories.type);
+    }).value = "") : (ids.push(cardArchitecture.categoriesGroup.id), ids.push(categorieID), ids.push(cardArchitecture.categoriesGroup.categories.tags.id[i]), ids.push(cardArchitecture.categoriesGroup.categories.tags.title.id), sketchCard.overrides.find(function (override) {
+      return override.id === idCombiner(ids, cardArchitecture.categoriesGroup.categories.tags.title.type);
+    }).value = tags[i]);
+  };
+
+  for (var i = 0; i < cardArchitecture.categoriesGroup.categories.tags.id.length; i++) {
+    _loop2(i);
+  }
+}
+
+function controler(document, sortItData) {
+  var symb = document.getSymbols().find(function (symbols) {
+    return symbols.name === "card/default";
+  }); // console.log(sortItData["card-views"].length);
+
+  document.pages.find(function (page) {
+    return page.name == "Sort-It";
+  }).layers[0].layers = [];
+  var x = 40;
+  var y = 40;
+
+  for (var index = 0; index < sortItData["card-views"].find(function (c) {
+    return c.title === "SYSTEM-ATTRIBUTE-root";
+  }).content.length; index++) {
+    var newSymb = symb.createNewInstance();
+    newSymb.frame.x = x;
+    newSymb.frame.y = y;
+    document.pages.find(function (page) {
+      return page.name == "Sort-It";
+    }).layers[0].layers.push(newSymb);
+    x < 874 ? x += 405 : (y += 284, x = 40);
+    giveOverrideValue(document.pages.find(function (page) {
+      return page.name == "Sort-It";
+    }).layers[0].layers[index], sortItData["card-views"].find(function (c) {
+      return c.title === "SYSTEM-ATTRIBUTE-root";
+    }).content[index]);
+    categorieGenerator(document.pages.find(function (page) {
+      return page.name == "Sort-It";
+    }).layers[0].layers[index], sortItData["card-views"].find(function (c) {
+      return c.title === "SYSTEM-ATTRIBUTE-root";
+    }).content[index].attributes);
+    document.pages.find(function (page) {
+      return page.name == "Sort-It";
+    }).layers[0].layers[index].resizeWithSmartLayout();
+  }
+}
+
+function giveOverrideValue(sketchCard, sortItCard) {
+  // Eventuell Text und Content noch in eigenes Symbol
+  sketchCard.overrides.find(function (override) {
+    return override.id === "E0D94CA4-7624-4B01-B47B-25700F51D7B8_stringValue";
+  }).value = sortItCard.content[0].content === "" ? " " : sortItCard.content[0].content;
+  sketchCard.overrides.find(function (override) {
+    return override.id === "C767CA97-276D-4799-B23C-CB9DA65E2A3B_stringValue";
+  }).value = sortItCard.title == "" ? " " : sortItCard.title; // sketchCard.overrides.find(
+  //   override => override.id === "7948EBBE-E43B-42E4-8AB2-992A43792EC0_symbolID"
+  // ).value = "";
+}
+
+function loadJSON() {
+  var openPanel = NSOpenPanel.openPanel();
+  openPanel.setTitle("Choose a JSON File");
+  openPanel.setCanCreateDirectories = false;
+  openPanel.setCanChooseFiles = true;
+  var fileTypes = ["json"];
+  var openPanelButtonPressed = openPanel.runModalForDirectory_file_types_(nil, nil, fileTypes);
+
+  if (openPanelButtonPressed == NSFileHandlingPanelOKButton) {
+    var filePath = openPanel.URL().path();
+    var fwJSON = JSON.parse(NSString.stringWithContentsOfFile(filePath));
+  } else {
+    var fwJSON = false;
+  }
+
+  return fwJSON;
+}
+
+/***/ }),
+
+/***/ "os":
+/*!*********************!*\
+  !*** external "os" ***!
+  \*********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("os");
+
+/***/ }),
+
+/***/ "path":
+/*!***********************!*\
+  !*** external "path" ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("path");
+
+/***/ }),
+
+/***/ "sketch":
+/*!*************************!*\
+  !*** external "sketch" ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("sketch");
+
+/***/ })
+
+/******/ });
+    if (key === 'default' && typeof exports === 'function') {
+      exports(context);
+    } else if (typeof exports[key] !== 'function') {
+      throw new Error('Missing export named "' + key + '". Your command should contain something like `export function " + key +"() {}`.');
+    } else {
+      exports[key](context);
+    }
+  } catch (err) {
+    if (typeof process !== 'undefined' && process.listenerCount && process.listenerCount('uncaughtException')) {
+      process.emit("uncaughtException", err, "uncaughtException");
+    } else {
+      throw err
+    }
+  }
+}
+globalThis['onRun'] = __skpm_run.bind(this, 'default')
+
+//# sourceMappingURL=__my-command.js.map
