@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/sketch-hq/SketchAPI/develop/docs/sketch-plugin-manifest-schema.json",
+  "icon": "icon.png",
+  "commands": [
+    {
+      "name": "Sort-It-to-Sketch",
+      "identifier": "sort-it.my-command-identifier",
+      "script": "./my-command.js"
+    }
+  ],
+  "menu": {
+    "title": "Sort-It",
+    "items": ["sort-it.my-command-identifier"]
+  }
+}
