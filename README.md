@@ -1,5 +1,7 @@
 # Sort-It-plugin
 
+![alt test](Sort-It.png)
+
 ## Installation
 
 - [Download](../../releases/latest/download/sort-it-plugin.sketchplugin.zip) the latest release of the plugin
@@ -60,7 +62,7 @@ To customize webpack create `webpack.skpm.config.js` file which exports function
  **/
 module.exports = function(config, isPluginCommand) {
   /** you can change config here **/
-}
+};
 ```
 
 ### Debugging
