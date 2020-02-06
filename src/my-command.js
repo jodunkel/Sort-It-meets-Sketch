@@ -5,14 +5,44 @@ import { Document, UI } from "sketch";
 // import data from "./instruction-v2.json";
 
 const cardArchitecture = {
-  title: {
-    id: "C767CA97-276D-4799-B23C-CB9DA65E2A3B",
-    type: "stringValue"
+  // title: {
+  //   id: "C767CA97-276D-4799-B23C-CB9DA65E2A3B",
+  //   type: "stringValue"
+  // },
+  cardTitle: {
+    id: "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA",
+    type: "symbolID",
+    title: {
+      id: "E668F187-0C7B-49F1-A9BE-3DD7BC60CA1C",
+      type: "symbolID",
+      text: { id: "C767CA97-276D-4799-B23C-CB9DA65E2A3B", type: "stringValue" }
+    }
   },
-  content: {
-    id: "E0D94CA4-7624-4B01-B47B-25700F51D7B8",
-    type: "stringValue"
+  subcard: {
+    id: [
+      "FC7AFE5D-6784-412D-AA59-0CD04203AF89",
+      "B4A0BA16-103F-4084-B060-5C8568F0D060",
+      "1100D78C-F9DC-4484-8E3C-1717651CB9C5",
+      "54190B67-A4B6-40BC-ACEE-04C95DDCBF6B",
+      "73173D13-A851-41F3-A53D-8C5654C6E172",
+      "37FAB9B3-C705-4391-9AB0-632499808AFF"
+    ],
+    type: "symbolID",
+    content: {
+      id: "CAFA59BC-FB6D-49B3-AF1B-63D56911D62C",
+      type: "symbolID",
+      text: { id: "E0D94CA4-7624-4B01-B47B-25700F51D7B8", type: "stringValue" }
+    },
+    title: {
+      id: "27922DC4-D7A9-45E3-B840-22C69BCF047C",
+      type: "symbolID",
+      text: { id: "C767CA97-276D-4799-B23C-CB9DA65E2A3B", type: "stringValue" }
+    }
   },
+  // content: {
+  //   id: "E0D94CA4-7624-4B01-B47B-25700F51D7B8",
+  //   type: "stringValue"
+  // },
   categoriesGroup: {
     id: "7948EBBE-E43B-42E4-8AB2-992A43792EC0",
     type: "symbolID",
@@ -199,11 +229,22 @@ function controler(document, sortItData) {
   document.pages.find(page => page.name == "Sort-It").layers[0].layers = [];
   let x = 40;
   let y = 40;
+  let sortItCOrD = sortItData["card-views"].find(
+    c =>
+      c.title === "SYSTEM-ATTRIBUTE-root" ||
+      c.title === "SYSTEM-ATTRIBUTE-default"
+  ).content; //   "SYSTEM-ATTRIBUTE-root"   "SYSTEM-ATTRIBUTE-default"
+  let sortItCards = [];
+  sortItCOrD.map(cOrD =>
+    cOrD.attributes.find(
+      attribut => attribut.label == "SYSTEM-ATTRIBUTE-display-as"
+    ).value[0] == "directory"
+      ? (sortItCards = sortItCards.concat(cOrD.content))
+      : (sortItCards = sortItCards.concat(cOrD))
+  );
   for (
     let index = 0;
-    index <
-    sortItData["card-views"].find(c => c.title === "SYSTEM-ATTRIBUTE-root")
-      .content.length;
+    index < sortItCards.length; //   "SYSTEM-ATTRIBUTE-root"   "SYSTEM-ATTRIBUTE-default"
     index++
   ) {
     const newSymb = symb.createNewInstance();
@@ -217,15 +258,13 @@ function controler(document, sortItData) {
       document.pages.find(page => page.name == "Sort-It").layers[0].layers[
         index
       ],
-      sortItData["card-views"].find(c => c.title === "SYSTEM-ATTRIBUTE-root")
-        .content[index]
+      sortItCards[index]
     );
     categorieGenerator(
       document.pages.find(page => page.name == "Sort-It").layers[0].layers[
         index
       ],
-      sortItData["card-views"].find(c => c.title === "SYSTEM-ATTRIBUTE-root")
-        .content[index].attributes
+      sortItCards[index].attributes
     );
     document.pages
       .find(page => page.name == "Sort-It")
@@ -235,18 +274,104 @@ function controler(document, sortItData) {
 
 function giveOverrideValue(sketchCard, sortItCard) {
   // Eventuell Text und Content noch in eigenes Symbol
-  sketchCard.overrides.find(
-    override =>
-      override.id === "E0D94CA4-7624-4B01-B47B-25700F51D7B8_stringValue"
-  ).value =
-    sortItCard.content[0].content === "" ? " " : sortItCard.content[0].content;
-  sketchCard.overrides.find(
-    override =>
-      override.id === "C767CA97-276D-4799-B23C-CB9DA65E2A3B_stringValue"
-  ).value = sortItCard.title == "" ? " " : sortItCard.title;
+  // sketchCard.overrides.find(
+  //   override =>
+  //     override.id === "E0D94CA4-7624-4B01-B47B-25700F51D7B8_stringValue"
+  // ).value =
+  //   sortItCard.content[0].content === "" ? " " : sortItCard.content[0].content;
+
+  // sketchCard.overrides.find(
+  //   override =>
+  //     override.id ===
+  //     "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA/E668F187-0C7B-49F1-A9BE-3DD7BC60CA1C/C767CA97-276D-4799-B23C-CB9DA65E2A3B_stringValue"
+  // ).value = sortItCard.title == "" ? " " : sortItCard.title;
+  contentGenerator(sketchCard, sortItCard.content);
+  titleGenerator(sketchCard, sortItCard.title);
+
   // sketchCard.overrides.find(
   //   override => override.id === "7948EBBE-E43B-42E4-8AB2-992A43792EC0_symbolID"
   // ).value = "";
+}
+
+function contentGenerator(sketchCard, cardContent) {
+  for (let index = 0; index < cardArchitecture.subcard.id.length; index++) {
+    if (cardContent[index] == undefined) {
+      sketchCard.overrides.find(
+        override =>
+          override.id ===
+          idCombiner(
+            cardArchitecture.subcard.id[index],
+            cardArchitecture.subcard.type
+          )
+      ).value = "";
+    } else {
+      if (cardContent[index].title == undefined) {
+        sketchCard.overrides.find(
+          override =>
+            override.id ===
+            idCombiner(
+              [
+                cardArchitecture.subcard.id[index],
+                cardArchitecture.subcard.title.id
+              ],
+              cardArchitecture.subcard.title.type
+            )
+        ).value = "";
+      } else {
+        sketchCard.overrides.find(
+          override =>
+            override.id ===
+            idCombiner(
+              [
+                cardArchitecture.subcard.id[index],
+                cardArchitecture.subcard.title.id,
+                cardArchitecture.subcard.title.text.id
+              ],
+              cardArchitecture.subcard.title.text.type
+            )
+        ).value = cardContent[index].title;
+      }
+      if (cardContent[index].content == undefined) {
+        sketchCard.overrides.find(
+          override =>
+            override.id ===
+            idCombiner(
+              [
+                cardArchitecture.subcard.id[index],
+                cardArchitecture.subcard.content.id
+              ],
+              cardArchitecture.subcard.content.type
+            )
+        ).value = "";
+      } else {
+        sketchCard.overrides.find(
+          override =>
+            override.id ===
+            idCombiner(
+              [
+                cardArchitecture.subcard.id[index],
+                cardArchitecture.subcard.content.id,
+                cardArchitecture.subcard.content.text.id
+              ],
+              cardArchitecture.subcard.content.text.type
+            )
+        ).value = cardContent[index].content;
+      }
+    }
+  }
+}
+
+function titleGenerator(sketchCard, cardTitle) {
+  cardTitle == ""
+    ? (sketchCard.overrides.find(
+        override =>
+          override.id === "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA_symbolID"
+      ).value = "")
+    : (sketchCard.overrides.find(
+        override =>
+          override.id ===
+          "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA/E668F187-0C7B-49F1-A9BE-3DD7BC60CA1C/C767CA97-276D-4799-B23C-CB9DA65E2A3B_stringValue"
+      ).value = cardTitle);
 }
 
 function loadJSON() {
