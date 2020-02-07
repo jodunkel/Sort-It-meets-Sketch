@@ -169,6 +169,7 @@ var cardArchitecture = {
     }
   }
 };
+var colorId = ["3D2BDACD-F119-4738-BB66-7BAF3F79DADC", "A63A1884-8751-4CB0-A3A5-5FBA2D3D0A58", "3A05AEED-FE6B-4659-B198-59B00FC3275B", "11B8348F-C5EB-4815-92CA-92554B466758"];
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var path = process.cwd();
   sketch__WEBPACK_IMPORTED_MODULE_0__["Document"].open(path.concat("/Contents/Resources/Sort-It.sketch"), function (err, document) {
@@ -186,8 +187,7 @@ var cardArchitecture = {
       sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Oops something went wrong 😬", "You must select a Sort-It file to continue. If you have selected a file, something has gone wrong.");
       document.close();
       return;
-    } // let sortItData = data;
-
+    }
 
     controler(document, sortItData);
     tileLayer(document.pages.find(function (page) {
@@ -242,12 +242,18 @@ function tagGenerator(sketchCard, tags, categorieID) {
       return override.id === idCombiner(ids, cardArchitecture.categoriesGroup.categories.type);
     }).value = "") : (ids.push(cardArchitecture.categoriesGroup.id), ids.push(categorieID), ids.push(cardArchitecture.categoriesGroup.categories.tags.id[i]), ids.push(cardArchitecture.categoriesGroup.categories.tags.title.id), sketchCard.overrides.find(function (override) {
       return override.id === idCombiner(ids, cardArchitecture.categoriesGroup.categories.tags.title.type);
-    }).value = tags[i]);
+    }).value = tags[i], tagColor(sketchCard, tags, categorieID, i));
   };
 
   for (var i = 0; i < cardArchitecture.categoriesGroup.categories.tags.id.length; i++) {
     _loop2(i);
   }
+}
+
+function tagColor(sketchCard, tags, categorieID, index) {
+  sketchCard.overrides.find(function (override) {
+    return override.id === idCombiner([cardArchitecture.categoriesGroup.id, categorieID, cardArchitecture.categoriesGroup.categories.tags.id[index], cardArchitecture.categoriesGroup.categories.tags.background.id], cardArchitecture.categoriesGroup.categories.tags.background.type);
+  }).value = colorId[0];
 }
 
 function controler(document, sortItData) {

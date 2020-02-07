@@ -78,6 +78,13 @@ const cardArchitecture = {
   }
 };
 
+const colorId = [
+  "3D2BDACD-F119-4738-BB66-7BAF3F79DADC",
+  "A63A1884-8751-4CB0-A3A5-5FBA2D3D0A58",
+  "3A05AEED-FE6B-4659-B198-59B00FC3275B",
+  "11B8348F-C5EB-4815-92CA-92554B466758"
+];
+
 export default function() {
   const path = process.cwd();
 
@@ -104,7 +111,6 @@ export default function() {
         document.close();
         return;
       }
-      // let sortItData = data;
       controler(document, sortItData);
       tileLayer(
         document.pages.find(page => page.name == "Sort-It").layers[0].layers
@@ -221,8 +227,25 @@ function tagGenerator(sketchCard, tags, categorieID) {
               ids,
               cardArchitecture.categoriesGroup.categories.tags.title.type
             )
-        ).value = tags[i]));
+        ).value = tags[i]),
+        tagColor(sketchCard, tags, categorieID, i));
   }
+}
+
+function tagColor(sketchCard, tags, categorieID, index) {
+  sketchCard.overrides.find(
+    override =>
+      override.id ===
+      idCombiner(
+        [
+          cardArchitecture.categoriesGroup.id,
+          categorieID,
+          cardArchitecture.categoriesGroup.categories.tags.id[index],
+          cardArchitecture.categoriesGroup.categories.tags.background.id
+        ],
+        cardArchitecture.categoriesGroup.categories.tags.background.type
+      )
+  ).value = colorId[0];
 }
 
 function controler(document, sortItData) {
