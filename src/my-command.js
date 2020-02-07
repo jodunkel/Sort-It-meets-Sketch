@@ -91,8 +91,6 @@ export default function() {
         return;
         // oh no, we failed to open the document
       }
-      // console.log(require("os").homedir());
-
       UI.alert(
         "Choose your Sort-It File",
         "It must be a JSON file exported from Sort-It!"
@@ -108,6 +106,9 @@ export default function() {
       }
       // let sortItData = data;
       controler(document, sortItData);
+      tileLayer(
+        document.pages.find(page => page.name == "Sort-It").layers[0].layers
+      );
       document.save(
         require("path")
           .join(require("os").homedir(), "Desktop")
@@ -378,4 +379,121 @@ function loadJSON() {
   }
 
   return fwJSON;
+}
+
+function tileLayer(context) {
+  // var preferences = require("../modules/Preferences");
+
+  // var version = parseFloat(require("sketch").version.sketch);
+  // var UI = require("sketch/ui");
+  // var doc = context.document;
+  for (let e = 0; e < 4; e++) {
+    var selection = [];
+    for (let index = e; index < context.length; index += 4) {
+      // for (let i = 0; i < context.length; i++) {
+      //   const element = array[i];
+      // }
+      selection.push(context[index]);
+    }
+    // var selection = context.selection;
+    if (selection.length < 2) {
+      // doc.showMessage("Please select more than 2 layers.");
+    } else {
+      // var defaultGap = preferences.get("gap") || "0";
+      var gap = 39;
+      // if (version >= 53) {
+      //   UI.getInputFromUser(
+      //     "Tile Objects",
+      //     {
+      //       initialValue: defaultGap,
+      //       description: "The gap between two layers. (px)"
+      //     },
+      //     function(err, value) {
+      //       if (err) return;
+      //       gap = value;
+      //     }
+      //   );
+      // } else {
+      //   gap = UI.getStringFromUser(
+      //     "The gap between two layers. (px)",
+      //     defaultGap
+      //   );
+      // }
+      // if (!gap) return;
+
+      // gap = parseInt(gap);
+      // preferences.set("gap", gap);
+
+      // Tile by position x/y
+      // if (orientation == "posx" || orientation == "posy") {
+      var layers = [];
+      for (var i = 0; i < selection.length; i++) {
+        var selectionIndex = i,
+          x = selection[i].frame.x,
+          y = selection[i].frame.y,
+          w = selection[i].frame.width,
+          h = selection[i].frame.height;
+        layers.push({
+          index: selectionIndex,
+          x: x,
+          y: y,
+          w: w,
+          h: h
+        });
+      }
+
+      // if (orientation == "posx") {
+      //   layers.sort(function(a, b) {
+      //     return a.x - b.x;
+      //   });
+      //   for (var i = 1; i < layers.length; i++) {
+      //     layers[i].x = layers[i - 1].x + layers[i - 1].w + gap;
+      //     selection[layers[i].index].frame.setX(layers[i].x);
+      //   }
+      // }
+
+      // if (orientation == "posy") {
+      layers.sort(function(a, b) {
+        return a.y - b.y;
+      });
+      for (var i = 1; i < layers.length; i++) {
+        layers[i].y = layers[i - 1].y + layers[i - 1].h + gap;
+        selection[layers[i].index].frame.y = layers[i].y;
+      }
+
+      // }
+      // }
+
+      // // Tile horizontally by index
+      // if (orientation == "horizontallyByIndex") {
+      //     for (var i = 1; i < selection.count(); i ++) {
+      //         selection.objectAtIndex(i).frame().setX(
+      //             selection.objectAtIndex(i-1).frame().x() + selection.objectAtIndex(i-1).frame().width() + gap
+      //         );
+      //     }
+      // }
+
+      // // Tile vertically by index
+      // if (orientation == "verticallyByIndex") {
+      //     for (var i = 1; i < selection.count(); i ++) {
+      //         selection.objectAtIndex(i).frame().setY(
+      //             selection.objectAtIndex(i-1).frame().y() + selection.objectAtIndex(i-1).frame().height() + gap
+      //         );
+      //     }
+      // }
+
+      // // Resize group to fit children
+      // var loopSelection = selection.objectEnumerator();
+      // var selectedLayer;
+      // while (selectedLayer = loopSelection.nextObject()) {
+      //     if (selectedLayer.parentGroup().class() == "MSLayerGroup") {
+      //         if (MSApplicationMetadata.metadata().appVersion >= 53) {
+      //             selectedLayer.parentGroup().fixGeometryWithOptions(1);
+      //         } else {
+      //             selectedLayer.parentGroup().resizeToFitChildrenWithOption(1);
+      //         }
+      //     }
+      // }
+    }
+  }
 }
