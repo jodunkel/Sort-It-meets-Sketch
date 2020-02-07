@@ -106,16 +106,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sketch__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-// import sketch from "sketch";
-// import { Document, Shape, UI, Style, Page } from "sketch";
- // import sketchDom from "sketch/dom";
-// import data from "./instruction-v2.json";
 
 var cardArchitecture = {
-  // title: {
-  //   id: "C767CA97-276D-4799-B23C-CB9DA65E2A3B",
-  //   type: "stringValue"
-  // },
   cardTitle: {
     id: "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA",
     type: "symbolID",
@@ -148,10 +140,6 @@ var cardArchitecture = {
       }
     }
   },
-  // content: {
-  //   id: "E0D94CA4-7624-4B01-B47B-25700F51D7B8",
-  //   type: "stringValue"
-  // },
   categoriesGroup: {
     id: "7948EBBE-E43B-42E4-8AB2-992A43792EC0",
     type: "symbolID",
@@ -189,8 +177,7 @@ var cardArchitecture = {
       sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Oops something went wrong 😬");
       document.close();
       return; // oh no, we failed to open the document
-    } // console.log(require("os").homedir());
-
+    }
 
     sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Choose your Sort-It File", "It must be a JSON file exported from Sort-It!");
     var sortItData = loadJSON();
@@ -203,6 +190,9 @@ var cardArchitecture = {
 
 
     controler(document, sortItData);
+    tileLayer(document.pages.find(function (page) {
+      return page.name == "Sort-It";
+    }).layers[0].layers);
     document.save(__webpack_require__(/*! path */ "path").join(__webpack_require__(/*! os */ "os").homedir(), "Desktop").concat("/sort-it.sketch"), {
       saveMode: sketch__WEBPACK_IMPORTED_MODULE_0__["Document"].SaveMode.SaveAs
     });
@@ -230,9 +220,11 @@ function categorieGenerator(sketchCard, categories) {
       var ids = [];
       categories[i] === undefined || categories[i].label === "SYSTEM-ATTRIBUTE-display-as" ? (ids.push(cardArchitecture.categoriesGroup.id), ids.push(cardArchitecture.categoriesGroup.categories.id[i]), sketchCard.overrides.find(function (override) {
         return override.id === idCombiner(ids, cardArchitecture.categoriesGroup.categories.type);
-      }).value = "") : (ids.push(cardArchitecture.categoriesGroup.id), ids.push(cardArchitecture.categoriesGroup.categories.id[i]), ids.push(cardArchitecture.categoriesGroup.categories.categorie.id), ids.push(cardArchitecture.categoriesGroup.categories.categorie.text.id), sketchCard.overrides.find(function (override) {
+      }).value = "") : (categories[i].label === "SYSTEM-ATTRIBUTE-empty-category" ? sketchCard.overrides.find(function (override) {
+        return override.id === idCombiner([cardArchitecture.categoriesGroup.id, cardArchitecture.categoriesGroup.categories.id[i], cardArchitecture.categoriesGroup.categories.categorie.id], cardArchitecture.categoriesGroup.categories.categorie.type);
+      }).value = "" : (ids.push(cardArchitecture.categoriesGroup.id), ids.push(cardArchitecture.categoriesGroup.categories.id[i]), ids.push(cardArchitecture.categoriesGroup.categories.categorie.id), ids.push(cardArchitecture.categoriesGroup.categories.categorie.text.id), sketchCard.overrides.find(function (override) {
         return override.id === idCombiner(ids, cardArchitecture.categoriesGroup.categories.categorie.text.type);
-      }).value = categories[i].label, tagGenerator(sketchCard, categories[i].value, cardArchitecture.categoriesGroup.categories.id[i]));
+      }).value = categories[i].label), tagGenerator(sketchCard, categories[i].value, cardArchitecture.categoriesGroup.categories.id[i]));
     };
 
     for (var i = 0; i < cardArchitecture.categoriesGroup.categories.id.length; i++) {
@@ -261,8 +253,7 @@ function tagGenerator(sketchCard, tags, categorieID) {
 function controler(document, sortItData) {
   var symb = document.getSymbols().find(function (symbols) {
     return symbols.name === "card/default";
-  }); // console.log(sortItData["card-views"].length);
-
+  });
   document.pages.find(function (page) {
     return page.name == "Sort-It";
   }).layers[0].layers = [];
@@ -279,8 +270,7 @@ function controler(document, sortItData) {
     }).value[0] == "directory" ? sortItCards = sortItCards.concat(cOrD.content) : sortItCards = sortItCards.concat(cOrD);
   });
 
-  for (var index = 0; index < sortItCards.length; //   "SYSTEM-ATTRIBUTE-root"   "SYSTEM-ATTRIBUTE-default"
-  index++) {
+  for (var index = 0; index < sortItCards.length; index++) {
     var newSymb = symb.createNewInstance();
     newSymb.frame.x = x;
     newSymb.frame.y = y;
@@ -301,21 +291,8 @@ function controler(document, sortItData) {
 }
 
 function giveOverrideValue(sketchCard, sortItCard) {
-  // Eventuell Text und Content noch in eigenes Symbol
-  // sketchCard.overrides.find(
-  //   override =>
-  //     override.id === "E0D94CA4-7624-4B01-B47B-25700F51D7B8_stringValue"
-  // ).value =
-  //   sortItCard.content[0].content === "" ? " " : sortItCard.content[0].content;
-  // sketchCard.overrides.find(
-  //   override =>
-  //     override.id ===
-  //     "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA/E668F187-0C7B-49F1-A9BE-3DD7BC60CA1C/C767CA97-276D-4799-B23C-CB9DA65E2A3B_stringValue"
-  // ).value = sortItCard.title == "" ? " " : sortItCard.title;
   contentGenerator(sketchCard, sortItCard.content);
-  titleGenerator(sketchCard, sortItCard.title); // sketchCard.overrides.find(
-  //   override => override.id === "7948EBBE-E43B-42E4-8AB2-992A43792EC0_symbolID"
-  // ).value = "";
+  titleGenerator(sketchCard, sortItCard.title);
 }
 
 function contentGenerator(sketchCard, cardContent) {
@@ -376,6 +353,46 @@ function loadJSON() {
   }
 
   return fwJSON;
+}
+
+function tileLayer(context) {
+  for (var e = 0; e < 4; e++) {
+    var selection = [];
+
+    for (var index = e; index < context.length; index += 4) {
+      selection.push(context[index]);
+    }
+
+    if (selection.length < 2) {// doc.showMessage("Please select more than 2 layers.");
+    } else {
+      var gap = 39;
+      var layers = [];
+
+      for (var i = 0; i < selection.length; i++) {
+        var selectionIndex = i,
+            x = selection[i].frame.x,
+            y = selection[i].frame.y,
+            w = selection[i].frame.width,
+            h = selection[i].frame.height;
+        layers.push({
+          index: selectionIndex,
+          x: x,
+          y: y,
+          w: w,
+          h: h
+        });
+      }
+
+      layers.sort(function (a, b) {
+        return a.y - b.y;
+      });
+
+      for (var i = 1; i < layers.length; i++) {
+        layers[i].y = layers[i - 1].y + layers[i - 1].h + gap;
+        selection[layers[i].index].frame.y = layers[i].y;
+      }
+    }
+  }
 }
 
 /***/ }),
