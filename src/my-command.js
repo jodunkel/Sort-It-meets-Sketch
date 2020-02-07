@@ -1,14 +1,6 @@
-// import sketch from "sketch";
-// import { Document, Shape, UI, Style, Page } from "sketch";
 import { Document, UI } from "sketch";
-// import sketchDom from "sketch/dom";
-// import data from "./instruction-v2.json";
 
 const cardArchitecture = {
-  // title: {
-  //   id: "C767CA97-276D-4799-B23C-CB9DA65E2A3B",
-  //   type: "stringValue"
-  // },
   cardTitle: {
     id: "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA",
     type: "symbolID",
@@ -39,10 +31,6 @@ const cardArchitecture = {
       text: { id: "C767CA97-276D-4799-B23C-CB9DA65E2A3B", type: "stringValue" }
     }
   },
-  // content: {
-  //   id: "E0D94CA4-7624-4B01-B47B-25700F51D7B8",
-  //   type: "stringValue"
-  // },
   categoriesGroup: {
     id: "7948EBBE-E43B-42E4-8AB2-992A43792EC0",
     type: "symbolID",
@@ -165,20 +153,36 @@ function categorieGenerator(sketchCard, categories) {
               override.id ===
               idCombiner(ids, cardArchitecture.categoriesGroup.categories.type)
           ).value = ""))
-        : (ids.push(cardArchitecture.categoriesGroup.id),
-          ids.push(cardArchitecture.categoriesGroup.categories.id[i]),
-          ids.push(cardArchitecture.categoriesGroup.categories.categorie.id),
-          ids.push(
-            cardArchitecture.categoriesGroup.categories.categorie.text.id
-          ),
-          (sketchCard.overrides.find(
-            override =>
-              override.id ===
-              idCombiner(
-                ids,
-                cardArchitecture.categoriesGroup.categories.categorie.text.type
-              )
-          ).value = categories[i].label),
+        : (categories[i].label === "SYSTEM-ATTRIBUTE-empty-category"
+            ? (sketchCard.overrides.find(
+                override =>
+                  override.id ===
+                  idCombiner(
+                    [
+                      cardArchitecture.categoriesGroup.id,
+                      cardArchitecture.categoriesGroup.categories.id[i],
+                      cardArchitecture.categoriesGroup.categories.categorie.id
+                    ],
+                    cardArchitecture.categoriesGroup.categories.categorie.type
+                  )
+              ).value = "")
+            : (ids.push(cardArchitecture.categoriesGroup.id),
+              ids.push(cardArchitecture.categoriesGroup.categories.id[i]),
+              ids.push(
+                cardArchitecture.categoriesGroup.categories.categorie.id
+              ),
+              ids.push(
+                cardArchitecture.categoriesGroup.categories.categorie.text.id
+              ),
+              (sketchCard.overrides.find(
+                override =>
+                  override.id ===
+                  idCombiner(
+                    ids,
+                    cardArchitecture.categoriesGroup.categories.categorie.text
+                      .type
+                  )
+              ).value = categories[i].label)),
           tagGenerator(
             sketchCard,
             categories[i].value,
@@ -224,7 +228,6 @@ function controler(document, sortItData) {
   let symb = document
     .getSymbols()
     .find(symbols => symbols.name === "card/default");
-  // console.log(sortItData["card-views"].length);
 
   document.pages.find(page => page.name == "Sort-It").layers[0].layers = [];
   let x = 40;
@@ -242,11 +245,7 @@ function controler(document, sortItData) {
       ? (sortItCards = sortItCards.concat(cOrD.content))
       : (sortItCards = sortItCards.concat(cOrD))
   );
-  for (
-    let index = 0;
-    index < sortItCards.length; //   "SYSTEM-ATTRIBUTE-root"   "SYSTEM-ATTRIBUTE-default"
-    index++
-  ) {
+  for (let index = 0; index < sortItCards.length; index++) {
     const newSymb = symb.createNewInstance();
     newSymb.frame.x = x;
     newSymb.frame.y = y;
@@ -273,24 +272,8 @@ function controler(document, sortItData) {
 }
 
 function giveOverrideValue(sketchCard, sortItCard) {
-  // Eventuell Text und Content noch in eigenes Symbol
-  // sketchCard.overrides.find(
-  //   override =>
-  //     override.id === "E0D94CA4-7624-4B01-B47B-25700F51D7B8_stringValue"
-  // ).value =
-  //   sortItCard.content[0].content === "" ? " " : sortItCard.content[0].content;
-
-  // sketchCard.overrides.find(
-  //   override =>
-  //     override.id ===
-  //     "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA/E668F187-0C7B-49F1-A9BE-3DD7BC60CA1C/C767CA97-276D-4799-B23C-CB9DA65E2A3B_stringValue"
-  // ).value = sortItCard.title == "" ? " " : sortItCard.title;
   contentGenerator(sketchCard, sortItCard.content);
   titleGenerator(sketchCard, sortItCard.title);
-
-  // sketchCard.overrides.find(
-  //   override => override.id === "7948EBBE-E43B-42E4-8AB2-992A43792EC0_symbolID"
-  // ).value = "";
 }
 
 function contentGenerator(sketchCard, cardContent) {
