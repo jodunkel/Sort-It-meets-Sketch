@@ -1,12 +1,32 @@
 ![alt test](Sort-It.png)
 
-# Sort-It-plugin
+# Sort-It meets Sketch
 
 ## Installation
 
 - [Download](../../releases/latest/download/sort-it-plugin.sketchplugin.zip) the latest release of the plugin
 - Un-zip
 - Double-click on sort-it-plugin.sketchplugin
+
+## Usage
+
+The plagin is used to import [Sort-It](https://sort-it.intuity.de/) files into Sketch.
+
+To import a file, select the Sort-It plugin and choose "Sort-It to Sketch". After that you will be asked for a Sort-It file.
+
+> Please note that this is currently only possible with second generation Sort-It files. If you have an older file, you can upgrade to the latest version of Sort-It and download it again. With the new file it should now be possible to import the files into Sketch.
+
+It may take a few seconds to import the Sort-It file correctly.
+
+After the process is complete, a new file has been created and will open in your Sketch window. The New File will be saved to your desktop at the same time.
+
+> **Important:** If you want to import another file, you must rename the previous file or save it to a different location, otherwise it will be overwritten.
+
+### Customize your cards
+
+To customize your exported cards, go to the "Symbols" page. Here you will find the individual building blocks that make up the cards. Please note that the individual building blocks should not be deleted, otherwise the links to the cards will not exist anymore, and therefore no more central modifications are possible.
+
+For more information: [Sketch Symbols](https://www.sketch.com/docs/symbols/)
 
 ## Development Guide
 
