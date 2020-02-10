@@ -295,9 +295,6 @@ function controler(document, sortItData) {
       .find(page => page.name == "Sort-It")
       .layers[0].layers[index].resizeWithSmartLayout();
   }
-  changeArtboard(document.pages
-    .find(page => page.name == "Sort-It")
-    .layers[0].layers[1], getNewArtboard(document));
 }
 
 
@@ -454,8 +451,11 @@ function atrboardControler(y, h) {
   } else {
     return 'same page'
   }
-
 }
+
+// changeArtboard(document.pages
+//   .find(page => page.name == "Sort-It")
+//   .layers[0].layers[1], getNewArtboard(document));
 
 function changeArtboard(oldLayer, newArtbort) {
   newArtbort.layers.push(oldLayer);
