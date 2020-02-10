@@ -257,10 +257,6 @@ function tagColor(sketchCard, tags, categorieID, index) {
 }
 
 function controler(document, sortItData) {
-  var newArtboard = getNewArtboard();
-  document.pages.find(function (page) {
-    return page.name == "Sort-It";
-  }).layers.push(newArtboard);
   var symb = document.getSymbols().find(function (symbols) {
     return symbols.name === "card/default";
   });
@@ -405,17 +401,22 @@ function tileLayer(context) {
   }
 }
 
-function getNewArtboard() {
-  return new sketch__WEBPACK_IMPORTED_MODULE_0__["Artboard"]({
-    name: 'A2.2',
-    // flowStartPoint: true,
+var artboardIndex = 0;
+
+function getNewArtboard(document) {
+  artboardIndex++;
+  document.pages.find(function (page) {
+    return page.name == "Sort-It";
+  }).layers.push(new sketch__WEBPACK_IMPORTED_MODULE_0__["Artboard"]({
+    name: 'A2',
+    // flowStartPoint: true,   1684+40
     frame: {
       height: 1191,
       width: 1684,
-      x: 1785,
-      y: -144
+      x: 1724 * artboardIndex,
+      y: 0
     }
-  });
+  }));
 }
 
 /***/ }),

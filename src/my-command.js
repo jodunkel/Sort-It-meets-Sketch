@@ -249,8 +249,6 @@ function tagColor(sketchCard, tags, categorieID, index) {
 }
 
 function controler(document, sortItData) {
-  let newArtboard = getNewArtboard();
-  document.pages.find(page => page.name == "Sort-It").layers.push(newArtboard);
   let symb = document
     .getSymbols()
     .find(symbols => symbols.name === "card/default");
@@ -444,15 +442,18 @@ function tileLayer(context) {
   }
 }
 
-function getNewArtboard() {
-  return (new Artboard({
-    name: 'A2.2',
-    // flowStartPoint: true,
+let artboardIndex = 0;
+
+function getNewArtboard(document) {
+  artboardIndex++;
+  document.pages.find(page => page.name == "Sort-It").layers.push(new Artboard({
+    name: 'A2',
+    // flowStartPoint: true,   1684+40
     frame: {
       height: 1191,
       width: 1684,
-      x: 1785,
-      y: -144,
+      x: 1724 * artboardIndex,
+      y: 0,
     }
   }))
 
