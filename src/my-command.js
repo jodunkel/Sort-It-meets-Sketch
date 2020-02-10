@@ -1,5 +1,7 @@
 import { Document, UI, Artboard } from "sketch";
 
+let artboardIndex = 0;
+
 const cardArchitecture = {
   cardTitle: {
     id: "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA",
@@ -293,6 +295,9 @@ function controler(document, sortItData) {
       .find(page => page.name == "Sort-It")
       .layers[0].layers[index].resizeWithSmartLayout();
   }
+  changeArtboard(document.pages
+    .find(page => page.name == "Sort-It")
+    .layers[0].layers[1], getNewArtboard(document));
 }
 
 
@@ -435,6 +440,7 @@ function tileLayer(context) {
         return a.y - b.y;
       });
       for (var i = 1; i < layers.length; i++) {
+        log(atrboardControler(layers[i - 1].y, layers[i - 1].h));
         layers[i].y = layers[i - 1].y + layers[i - 1].h + gap;
         selection[layers[i].index].frame.y = layers[i].y;
       }
@@ -442,11 +448,24 @@ function tileLayer(context) {
   }
 }
 
-let artboardIndex = 0;
+function atrboardControler(y, h) {
+  if ((y + h) > 1151) {
+    return 'new Page'
+  } else {
+    return 'same page'
+  }
+
+}
+
+function changeArtboard(oldLayer, newArtbort) {
+  newArtbort.layers.push(oldLayer);
+  // log(newArtbort.layers);
+
+}
 
 function getNewArtboard(document) {
   artboardIndex++;
-  document.pages.find(page => page.name == "Sort-It").layers.push(new Artboard({
+  let newArtboart = new Artboard({
     name: 'A2',
     // flowStartPoint: true,   1684+40
     frame: {
@@ -455,6 +474,7 @@ function getNewArtboard(document) {
       x: 1724 * artboardIndex,
       y: 0,
     }
-  }))
-
+  });
+  document.pages.find(page => page.name == "Sort-It").layers.push(newArtboart);
+  return newArtboart;
 }
