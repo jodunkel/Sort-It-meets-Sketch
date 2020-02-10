@@ -447,7 +447,7 @@ function tileLayer(context) {
 function getNewArtboard() {
   return (new Artboard({
     name: 'A2.2',
-    flowStartPoint: true,
+    // flowStartPoint: true,
     frame: {
       height: 1191,
       width: 1684,

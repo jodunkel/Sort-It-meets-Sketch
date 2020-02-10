@@ -408,7 +408,7 @@ function tileLayer(context) {
 function getNewArtboard() {
   return new sketch__WEBPACK_IMPORTED_MODULE_0__["Artboard"]({
     name: 'A2.2',
-    flowStartPoint: true,
+    // flowStartPoint: true,
     frame: {
       height: 1191,
       width: 1684,
