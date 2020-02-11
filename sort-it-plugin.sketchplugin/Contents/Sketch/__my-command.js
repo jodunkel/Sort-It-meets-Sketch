@@ -107,6 +107,7 @@ __webpack_require__.r(__webpack_exports__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
+var artboardIndex = 0;
 var cardArchitecture = {
   cardTitle: {
     id: "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA",
@@ -395,11 +396,45 @@ function tileLayer(context) {
       });
 
       for (var i = 1; i < layers.length; i++) {
+        log(atrboardControler(layers[i - 1].y, layers[i - 1].h));
         layers[i].y = layers[i - 1].y + layers[i - 1].h + gap;
         selection[layers[i].index].frame.y = layers[i].y;
       }
     }
   }
+}
+
+function atrboardControler(y, h) {
+  if (y + h > 1151) {
+    return 'new Page';
+  } else {
+    return 'same page';
+  }
+} // changeArtboard(document.pages
+//   .find(page => page.name == "Sort-It")
+//   .layers[0].layers[1], getNewArtboard(document));
+
+
+function changeArtboard(oldLayer, newArtbort) {
+  newArtbort.layers.push(oldLayer); // log(newArtbort.layers);
+}
+
+function getNewArtboard(document) {
+  artboardIndex++;
+  var newArtboart = new sketch__WEBPACK_IMPORTED_MODULE_0__["Artboard"]({
+    name: 'A2',
+    // flowStartPoint: true,   1684+40
+    frame: {
+      height: 1191,
+      width: 1684,
+      x: 1724 * artboardIndex,
+      y: 0
+    }
+  });
+  document.pages.find(function (page) {
+    return page.name == "Sort-It";
+  }).layers.push(newArtboart);
+  return newArtboart;
 }
 
 /***/ }),

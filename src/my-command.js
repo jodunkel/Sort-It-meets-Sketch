@@ -1,4 +1,6 @@
-import { Document, UI } from "sketch";
+import { Document, UI, Artboard } from "sketch";
+
+let artboardIndex = 0;
 
 const cardArchitecture = {
   cardTitle: {
@@ -86,7 +88,7 @@ const colorId = [
   "11B8348F-C5EB-4815-92CA-92554B466758"
 ];
 
-export default function() {
+export default function () {
   const path = process.cwd();
 
   Document.open(
@@ -153,7 +155,7 @@ function categorieGenerator(sketchCard, categories) {
     ) {
       const ids = [];
       categories[i] === undefined ||
-      categories[i].label === "SYSTEM-ATTRIBUTE-display-as"
+        categories[i].label === "SYSTEM-ATTRIBUTE-display-as"
         ? (ids.push(cardArchitecture.categoriesGroup.id),
           ids.push(cardArchitecture.categoriesGroup.categories.id[i]),
           (sketchCard.overrides.find(
@@ -162,35 +164,35 @@ function categorieGenerator(sketchCard, categories) {
               idCombiner(ids, cardArchitecture.categoriesGroup.categories.type)
           ).value = ""))
         : (categories[i].label === "SYSTEM-ATTRIBUTE-empty-category"
-            ? (sketchCard.overrides.find(
-                override =>
-                  override.id ===
-                  idCombiner(
-                    [
-                      cardArchitecture.categoriesGroup.id,
-                      cardArchitecture.categoriesGroup.categories.id[i],
-                      cardArchitecture.categoriesGroup.categories.categorie.id
-                    ],
-                    cardArchitecture.categoriesGroup.categories.categorie.type
-                  )
-              ).value = "")
-            : (ids.push(cardArchitecture.categoriesGroup.id),
-              ids.push(cardArchitecture.categoriesGroup.categories.id[i]),
-              ids.push(
-                cardArchitecture.categoriesGroup.categories.categorie.id
-              ),
-              ids.push(
-                cardArchitecture.categoriesGroup.categories.categorie.text.id
-              ),
-              (sketchCard.overrides.find(
-                override =>
-                  override.id ===
-                  idCombiner(
-                    ids,
-                    cardArchitecture.categoriesGroup.categories.categorie.text
-                      .type
-                  )
-              ).value = categories[i].label)),
+          ? (sketchCard.overrides.find(
+            override =>
+              override.id ===
+              idCombiner(
+                [
+                  cardArchitecture.categoriesGroup.id,
+                  cardArchitecture.categoriesGroup.categories.id[i],
+                  cardArchitecture.categoriesGroup.categories.categorie.id
+                ],
+                cardArchitecture.categoriesGroup.categories.categorie.type
+              )
+          ).value = "")
+          : (ids.push(cardArchitecture.categoriesGroup.id),
+            ids.push(cardArchitecture.categoriesGroup.categories.id[i]),
+            ids.push(
+              cardArchitecture.categoriesGroup.categories.categorie.id
+            ),
+            ids.push(
+              cardArchitecture.categoriesGroup.categories.categorie.text.id
+            ),
+            (sketchCard.overrides.find(
+              override =>
+                override.id ===
+                idCombiner(
+                  ids,
+                  cardArchitecture.categoriesGroup.categories.categorie.text
+                    .type
+                )
+            ).value = categories[i].label)),
           tagGenerator(
             sketchCard,
             categories[i].value,
@@ -280,13 +282,13 @@ function controler(document, sortItData) {
     x < 874 ? (x += 405) : ((y += 284), (x = 40));
     giveOverrideValue(
       document.pages.find(page => page.name == "Sort-It").layers[0].layers[
-        index
+      index
       ],
       sortItCards[index]
     );
     categorieGenerator(
       document.pages.find(page => page.name == "Sort-It").layers[0].layers[
-        index
+      index
       ],
       sortItCards[index].attributes
     );
@@ -295,6 +297,7 @@ function controler(document, sortItData) {
       .layers[0].layers[index].resizeWithSmartLayout();
   }
 }
+
 
 function giveOverrideValue(sketchCard, sortItCard) {
   contentGenerator(sketchCard, sortItCard.content);
@@ -372,14 +375,14 @@ function contentGenerator(sketchCard, cardContent) {
 function titleGenerator(sketchCard, cardTitle) {
   cardTitle == ""
     ? (sketchCard.overrides.find(
-        override =>
-          override.id === "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA_symbolID"
-      ).value = "")
+      override =>
+        override.id === "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA_symbolID"
+    ).value = "")
     : (sketchCard.overrides.find(
-        override =>
-          override.id ===
-          "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA/E668F187-0C7B-49F1-A9BE-3DD7BC60CA1C/C767CA97-276D-4799-B23C-CB9DA65E2A3B_stringValue"
-      ).value = cardTitle);
+      override =>
+        override.id ===
+        "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA/E668F187-0C7B-49F1-A9BE-3DD7BC60CA1C/C767CA97-276D-4799-B23C-CB9DA65E2A3B_stringValue"
+    ).value = cardTitle);
 }
 
 function loadJSON() {
@@ -431,13 +434,48 @@ function tileLayer(context) {
           h: h
         });
       }
-      layers.sort(function(a, b) {
+      layers.sort(function (a, b) {
         return a.y - b.y;
       });
       for (var i = 1; i < layers.length; i++) {
+        log(atrboardControler(layers[i - 1].y, layers[i - 1].h));
         layers[i].y = layers[i - 1].y + layers[i - 1].h + gap;
         selection[layers[i].index].frame.y = layers[i].y;
       }
     }
   }
+}
+
+function atrboardControler(y, h) {
+  if ((y + h) > 1151) {
+    return 'new Page'
+  } else {
+    return 'same page'
+  }
+}
+
+// changeArtboard(document.pages
+//   .find(page => page.name == "Sort-It")
+//   .layers[0].layers[1], getNewArtboard(document));
+
+function changeArtboard(oldLayer, newArtbort) {
+  newArtbort.layers.push(oldLayer);
+  // log(newArtbort.layers);
+
+}
+
+function getNewArtboard(document) {
+  artboardIndex++;
+  let newArtboart = new Artboard({
+    name: 'A2',
+    // flowStartPoint: true,   1684+40
+    frame: {
+      height: 1191,
+      width: 1684,
+      x: 1724 * artboardIndex,
+      y: 0,
+    }
+  });
+  document.pages.find(page => page.name == "Sort-It").layers.push(newArtboart);
+  return newArtboart;
 }
