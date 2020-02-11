@@ -178,7 +178,7 @@ var colorId = [// "#87125A" "#09676E" "#87125A" "#D01E8C" "#0D97A1" "#2D51B2" "#
   sketch__WEBPACK_IMPORTED_MODULE_0__["Document"].open(path.concat("/Contents/Resources/Sort-It.sketch"), function (err, document) {
     if (err) {
       console.error(err);
-      sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Oops something went wrong 😬");
+      sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Oops something went wrong 😬", " ");
       document.close();
       return; // oh no, we failed to open the document
     }
@@ -201,7 +201,7 @@ var colorId = [// "#87125A" "#09676E" "#87125A" "#D01E8C" "#0D97A1" "#2D51B2" "#
         return page.name == "Sort-It";
       }).layers[0].layers, document);
     } catch (error) {
-      sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Oops something went wrong 😬", "");
+      sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Oops something went wrong 😬", " ");
       console.error(error);
       document.close();
       return;
@@ -236,7 +236,7 @@ function categorieGenerator(sketchCard, categories) {
         return override.id === idCombiner([cardArchitecture.categoriesGroup.id, cardArchitecture.categoriesGroup.categories.id[i], cardArchitecture.categoriesGroup.categories.categorie.id], cardArchitecture.categoriesGroup.categories.categorie.type);
       }).value = "" : (ids.push(cardArchitecture.categoriesGroup.id), ids.push(cardArchitecture.categoriesGroup.categories.id[i]), ids.push(cardArchitecture.categoriesGroup.categories.categorie.id), ids.push(cardArchitecture.categoriesGroup.categories.categorie.text.id), sketchCard.overrides.find(function (override) {
         return override.id === idCombiner(ids, cardArchitecture.categoriesGroup.categories.categorie.text.type);
-      }).value = categories[i].label), tagGenerator(sketchCard, categories[i].value, cardArchitecture.categoriesGroup.categories.id[i]));
+      }).value = categories[i].label), tagGenerator(sketchCard, categories[i].value, cardArchitecture.categoriesGroup.categories.id[i], categories[i].label));
     };
 
     for (var i = 0; i < cardArchitecture.categoriesGroup.categories.id.length; i++) {
@@ -247,14 +247,14 @@ function categorieGenerator(sketchCard, categories) {
   return overrideValues;
 }
 
-function tagGenerator(sketchCard, tags, categorieID) {
+function tagGenerator(sketchCard, tags, categorieID, category) {
   var _loop2 = function _loop2(i) {
     var ids = [];
     tags[i] === undefined ? (ids.push(cardArchitecture.categoriesGroup.id), ids.push(categorieID), ids.push(cardArchitecture.categoriesGroup.categories.tags.id[i]), sketchCard.overrides.find(function (override) {
       return override.id === idCombiner(ids, cardArchitecture.categoriesGroup.categories.type);
     }).value = "") : (ids.push(cardArchitecture.categoriesGroup.id), ids.push(categorieID), ids.push(cardArchitecture.categoriesGroup.categories.tags.id[i]), ids.push(cardArchitecture.categoriesGroup.categories.tags.title.id), sketchCard.overrides.find(function (override) {
       return override.id === idCombiner(ids, cardArchitecture.categoriesGroup.categories.tags.title.type);
-    }).value = tags[i], tagColor(sketchCard, tags, categorieID, i));
+    }).value = tags[i], tagColor(sketchCard, categorieID, i, category));
   };
 
   for (var i = 0; i < cardArchitecture.categoriesGroup.categories.tags.id.length; i++) {
@@ -262,10 +262,29 @@ function tagGenerator(sketchCard, tags, categorieID) {
   }
 }
 
-function tagColor(sketchCard, tags, categorieID, index) {
+var colorToCategory = [];
+
+function colorIndexGenerator(index) {
+  if (index < colorId.length) {
+    return index;
+  } else {
+    return colorIndexGenerator(index - colorId.length);
+  }
+}
+
+function tagColor(sketchCard, categorieID, index, category) {
+  var colerIndex = 0;
+
+  if (colorToCategory.indexOf(category) < 0) {
+    colorToCategory.push(category);
+    colerIndex = colorIndexGenerator(colorToCategory.indexOf(category));
+  } else {
+    colerIndex = colorIndexGenerator(colorToCategory.indexOf(category));
+  }
+
   sketchCard.overrides.find(function (override) {
     return override.id === idCombiner([cardArchitecture.categoriesGroup.id, categorieID, cardArchitecture.categoriesGroup.categories.tags.id[index], cardArchitecture.categoriesGroup.categories.tags.background.id], cardArchitecture.categoriesGroup.categories.tags.background.type);
-  }).value = colorId[0];
+  }).value = colorId[colerIndex];
 }
 
 function controler(document, sortItData) {
@@ -431,14 +450,6 @@ function tileLayer(context, document) {
         }
       }
     }
-  }
-}
-
-function atrboardControler(y, h) {
-  if (y + h > 1151) {
-    return "new Page";
-  } else {
-    return "same page";
   }
 }
 

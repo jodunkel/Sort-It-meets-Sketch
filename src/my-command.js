@@ -97,7 +97,7 @@ export default function() {
     (err, document) => {
       if (err) {
         console.error(err);
-        UI.alert("Oops something went wrong 😬");
+        UI.alert("Oops something went wrong 😬", " ");
         document.close();
         return;
         // oh no, we failed to open the document
@@ -130,7 +130,7 @@ export default function() {
           document
         );
       } catch (error) {
-        UI.alert("Oops something went wrong 😬", "");
+        UI.alert("Oops something went wrong 😬", " ");
         console.error(error);
         document.close();
         return;
@@ -206,14 +206,15 @@ function categorieGenerator(sketchCard, categories) {
           tagGenerator(
             sketchCard,
             categories[i].value,
-            cardArchitecture.categoriesGroup.categories.id[i]
+            cardArchitecture.categoriesGroup.categories.id[i],
+            categories[i].label
           ));
     }
   }
   return overrideValues;
 }
 
-function tagGenerator(sketchCard, tags, categorieID) {
+function tagGenerator(sketchCard, tags, categorieID, category) {
   for (
     let i = 0;
     i < cardArchitecture.categoriesGroup.categories.tags.id.length;
@@ -241,11 +242,27 @@ function tagGenerator(sketchCard, tags, categorieID) {
               cardArchitecture.categoriesGroup.categories.tags.title.type
             )
         ).value = tags[i]),
-        tagColor(sketchCard, tags, categorieID, i));
+        tagColor(sketchCard, categorieID, i, category));
+  }
+}
+let colorToCategory = [];
+
+function colorIndexGenerator(index) {
+  if (index < colorId.length) {
+    return index;
+  } else {
+    return colorIndexGenerator(index - colorId.length);
   }
 }
 
-function tagColor(sketchCard, tags, categorieID, index) {
+function tagColor(sketchCard, categorieID, index, category) {
+  var colerIndex = 0;
+  if (colorToCategory.indexOf(category) < 0) {
+    colorToCategory.push(category);
+    colerIndex = colorIndexGenerator(colorToCategory.indexOf(category));
+  } else {
+    colerIndex = colorIndexGenerator(colorToCategory.indexOf(category));
+  }
   sketchCard.overrides.find(
     override =>
       override.id ===
@@ -258,7 +275,7 @@ function tagColor(sketchCard, tags, categorieID, index) {
         ],
         cardArchitecture.categoriesGroup.categories.tags.background.type
       )
-  ).value = colorId[0];
+  ).value = colorId[colerIndex];
 }
 
 function controler(document, sortItData) {
@@ -470,14 +487,6 @@ function tileLayer(context, document) {
         }
       }
     }
-  }
-}
-
-function atrboardControler(y, h) {
-  if (y + h > 1151) {
-    return "new Page";
-  } else {
-    return "same page";
   }
 }
 
