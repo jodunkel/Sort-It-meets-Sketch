@@ -408,12 +408,23 @@ function titleGenerator(sketchCard, cardTitle) {
   cardTitle == ""
     ? (sketchCard.overrides.find(
         override =>
-          override.id === "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA_symbolID"
+          override.id ===
+          idCombiner(
+            [cardArchitecture.cardTitle.id],
+            cardArchitecture.cardTitle.type
+          )
       ).value = "")
     : (sketchCard.overrides.find(
         override =>
           override.id ===
-          "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA/E668F187-0C7B-49F1-A9BE-3DD7BC60CA1C/C767CA97-276D-4799-B23C-CB9DA65E2A3B_stringValue"
+          idCombiner(
+            [
+              cardArchitecture.cardTitle.id,
+              cardArchitecture.cardTitle.title.id,
+              cardArchitecture.cardTitle.title.text.id
+            ],
+            cardArchitecture.cardTitle.title.text.type
+          )
       ).value = cardTitle);
 }
 
