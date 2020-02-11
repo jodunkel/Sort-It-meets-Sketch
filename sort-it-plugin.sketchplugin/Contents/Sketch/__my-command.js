@@ -169,7 +169,8 @@ var cardArchitecture = {
     }
   }
 };
-var colorId = ["3D2BDACD-F119-4738-BB66-7BAF3F79DADC", "A63A1884-8751-4CB0-A3A5-5FBA2D3D0A58", "3A05AEED-FE6B-4659-B198-59B00FC3275B", "11B8348F-C5EB-4815-92CA-92554B466758"];
+var colorId = [// "#87125A" "#09676E" "#87125A" "#D01E8C" "#0D97A1" "#2D51B2" "#C6559A" "#83B5C1" "#438DCC" "#D098BB"
+"3D2BDACD-F119-4738-BB66-7BAF3F79DADC", "A63A1884-8751-4CB0-A3A5-5FBA2D3D0A58", "3A05AEED-FE6B-4659-B198-59B00FC3275B", "11B8348F-C5EB-4815-92CA-92554B466758"];
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var path = process.cwd();
   sketch__WEBPACK_IMPORTED_MODULE_0__["Document"].open(path.concat("/Contents/Resources/Sort-It.sketch"), function (err, document) {
