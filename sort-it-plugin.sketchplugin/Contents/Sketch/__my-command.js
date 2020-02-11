@@ -106,7 +106,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sketch__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+ // import { log } from "util";
 
+var artboardIndex = 0;
 var cardArchitecture = {
   cardTitle: {
     id: "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA",
@@ -169,16 +171,21 @@ var cardArchitecture = {
     }
   }
 };
+var colorId = [// "#87125A" "#09676E" "#87125A" "#D01E8C" "#0D97A1" "#2D51B2" "#C6559A" "#83B5C1" "#438DCC" "#D098BB"
+"3D2BDACD-F119-4738-BB66-7BAF3F79DADC", "A63A1884-8751-4CB0-A3A5-5FBA2D3D0A58", "3A05AEED-FE6B-4659-B198-59B00FC3275B", "11B8348F-C5EB-4815-92CA-92554B466758"];
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var path = process.cwd();
   sketch__WEBPACK_IMPORTED_MODULE_0__["Document"].open(path.concat("/Contents/Resources/Sort-It.sketch"), function (err, document) {
     if (err) {
       console.error(err);
-      sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Oops something went wrong 😬");
+      sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Oops something went wrong 😬", " ");
       document.close();
       return; // oh no, we failed to open the document
     }
 
+    document.save(__webpack_require__(/*! path */ "path").join(__webpack_require__(/*! os */ "os").homedir(), "Desktop").concat("/sort-it.sketch"), {
+      saveMode: sketch__WEBPACK_IMPORTED_MODULE_0__["Document"].SaveMode.SaveAs
+    });
     sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Choose your Sort-It File", "It must be a JSON file exported from Sort-It!");
     var sortItData = loadJSON();
 
@@ -186,16 +193,21 @@ var cardArchitecture = {
       sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Oops something went wrong 😬", "You must select a Sort-It file to continue. If you have selected a file, something has gone wrong.");
       document.close();
       return;
-    } // let sortItData = data;
+    }
 
+    try {
+      controler(document, sortItData);
+      tileLayer(document.pages.find(function (page) {
+        return page.name == "Sort-It";
+      }).layers[0].layers, document);
+    } catch (error) {
+      sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Oops something went wrong 😬", " ");
+      console.error(error);
+      document.close();
+      return;
+    }
 
-    controler(document, sortItData);
-    tileLayer(document.pages.find(function (page) {
-      return page.name == "Sort-It";
-    }).layers[0].layers);
-    document.save(__webpack_require__(/*! path */ "path").join(__webpack_require__(/*! os */ "os").homedir(), "Desktop").concat("/sort-it.sketch"), {
-      saveMode: sketch__WEBPACK_IMPORTED_MODULE_0__["Document"].SaveMode.SaveAs
-    });
+    document.save();
     sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].message("The file has been saved to your desktop. 💾 ");
   });
 });
@@ -224,7 +236,7 @@ function categorieGenerator(sketchCard, categories) {
         return override.id === idCombiner([cardArchitecture.categoriesGroup.id, cardArchitecture.categoriesGroup.categories.id[i], cardArchitecture.categoriesGroup.categories.categorie.id], cardArchitecture.categoriesGroup.categories.categorie.type);
       }).value = "" : (ids.push(cardArchitecture.categoriesGroup.id), ids.push(cardArchitecture.categoriesGroup.categories.id[i]), ids.push(cardArchitecture.categoriesGroup.categories.categorie.id), ids.push(cardArchitecture.categoriesGroup.categories.categorie.text.id), sketchCard.overrides.find(function (override) {
         return override.id === idCombiner(ids, cardArchitecture.categoriesGroup.categories.categorie.text.type);
-      }).value = categories[i].label), tagGenerator(sketchCard, categories[i].value, cardArchitecture.categoriesGroup.categories.id[i]));
+      }).value = categories[i].label), tagGenerator(sketchCard, categories[i].value, cardArchitecture.categoriesGroup.categories.id[i], categories[i].label));
     };
 
     for (var i = 0; i < cardArchitecture.categoriesGroup.categories.id.length; i++) {
@@ -235,19 +247,44 @@ function categorieGenerator(sketchCard, categories) {
   return overrideValues;
 }
 
-function tagGenerator(sketchCard, tags, categorieID) {
+function tagGenerator(sketchCard, tags, categorieID, category) {
   var _loop2 = function _loop2(i) {
     var ids = [];
     tags[i] === undefined ? (ids.push(cardArchitecture.categoriesGroup.id), ids.push(categorieID), ids.push(cardArchitecture.categoriesGroup.categories.tags.id[i]), sketchCard.overrides.find(function (override) {
       return override.id === idCombiner(ids, cardArchitecture.categoriesGroup.categories.type);
     }).value = "") : (ids.push(cardArchitecture.categoriesGroup.id), ids.push(categorieID), ids.push(cardArchitecture.categoriesGroup.categories.tags.id[i]), ids.push(cardArchitecture.categoriesGroup.categories.tags.title.id), sketchCard.overrides.find(function (override) {
       return override.id === idCombiner(ids, cardArchitecture.categoriesGroup.categories.tags.title.type);
-    }).value = tags[i]);
+    }).value = tags[i], tagColor(sketchCard, categorieID, i, category));
   };
 
   for (var i = 0; i < cardArchitecture.categoriesGroup.categories.tags.id.length; i++) {
     _loop2(i);
   }
+}
+
+var colorToCategory = [];
+
+function colorIndexGenerator(index) {
+  if (index < colorId.length) {
+    return index;
+  } else {
+    return colorIndexGenerator(index - colorId.length);
+  }
+}
+
+function tagColor(sketchCard, categorieID, index, category) {
+  var colerIndex = 0;
+
+  if (colorToCategory.indexOf(category) < 0) {
+    colorToCategory.push(category);
+    colerIndex = colorIndexGenerator(colorToCategory.indexOf(category));
+  } else {
+    colerIndex = colorIndexGenerator(colorToCategory.indexOf(category));
+  }
+
+  sketchCard.overrides.find(function (override) {
+    return override.id === idCombiner([cardArchitecture.categoriesGroup.id, categorieID, cardArchitecture.categoriesGroup.categories.tags.id[index], cardArchitecture.categoriesGroup.categories.tags.background.id], cardArchitecture.categoriesGroup.categories.tags.background.type);
+  }).value = colorId[colerIndex];
 }
 
 function controler(document, sortItData) {
@@ -355,7 +392,7 @@ function loadJSON() {
   return fwJSON;
 }
 
-function tileLayer(context) {
+function tileLayer(context, document) {
   for (var e = 0; e < 4; e++) {
     var selection = [];
 
@@ -367,6 +404,8 @@ function tileLayer(context) {
     } else {
       var gap = 39;
       var layers = [];
+      var pageIndex = 0;
+      var yPos = JSON.parse(JSON.stringify(gap));
 
       for (var i = 0; i < selection.length; i++) {
         var selectionIndex = i,
@@ -374,25 +413,66 @@ function tileLayer(context) {
             y = selection[i].frame.y,
             w = selection[i].frame.width,
             h = selection[i].frame.height;
+        yPos = yPos + h + gap;
+
+        if (yPos >= 1191) {
+          yPos = 0;
+          pageIndex++;
+        }
+
         layers.push({
           index: selectionIndex,
           x: x,
           y: y,
           w: w,
-          h: h
+          h: h,
+          pageIndex: pageIndex
         });
       }
 
-      layers.sort(function (a, b) {
-        return a.y - b.y;
-      });
-
       for (var i = 1; i < layers.length; i++) {
-        layers[i].y = layers[i - 1].y + layers[i - 1].h + gap;
-        selection[layers[i].index].frame.y = layers[i].y;
+        if (layers[i].pageIndex > artboardIndex) {
+          getNewArtboard(document);
+        }
+
+        if (layers[i].pageIndex == layers[i - 1].pageIndex) {
+          layers[i].y = layers[i - 1].y + layers[i - 1].h + gap;
+          selection[layers[i].index].frame.y = layers[i].y;
+        } else {
+          layers[i].y = gap;
+          selection[layers[i].index].frame.y = layers[i].y;
+        }
+
+        if (layers[i].pageIndex != 0) {
+          changeArtboard(selection[layers[i].index], document.pages.find(function (page) {
+            return page.name == "Sort-It";
+          }).layers[1]);
+        }
       }
     }
   }
+}
+
+function changeArtboard(oldLayer, newArtbort) {
+  newArtbort.layers.push(oldLayer);
+}
+
+function getNewArtboard(document) {
+  artboardIndex++;
+  var newArtboart = new sketch__WEBPACK_IMPORTED_MODULE_0__["Artboard"]({
+    name: "A2",
+    // flowStartPoint: true,   1684+40
+    frame: {
+      height: 1191,
+      width: 1684,
+      x: 1724 * artboardIndex,
+      y: 0
+    }
+  });
+  document.pages.find(function (page) {
+    return page.name == "Sort-It";
+  }).layers.push(newArtboart);
+  return newArtboart;
 }
 
 /***/ }),
