@@ -106,8 +106,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sketch__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
- // import { log } from "util";
 
+var colorToCategory = [];
 var artboardIndex = 0;
 var cardArchitecture = {
   cardTitle: {
@@ -262,8 +262,6 @@ function tagGenerator(sketchCard, tags, categorieID, category) {
   }
 }
 
-var colorToCategory = [];
-
 function colorIndexGenerator(index) {
   if (index < colorId.length) {
     return index;
@@ -368,9 +366,9 @@ function contentGenerator(sketchCard, cardContent) {
 
 function titleGenerator(sketchCard, cardTitle) {
   cardTitle == "" ? sketchCard.overrides.find(function (override) {
-    return override.id === "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA_symbolID";
+    return override.id === idCombiner([cardArchitecture.cardTitle.id], cardArchitecture.cardTitle.type);
   }).value = "" : sketchCard.overrides.find(function (override) {
-    return override.id === "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA/E668F187-0C7B-49F1-A9BE-3DD7BC60CA1C/C767CA97-276D-4799-B23C-CB9DA65E2A3B_stringValue";
+    return override.id === idCombiner([cardArchitecture.cardTitle.id, cardArchitecture.cardTitle.title.id, cardArchitecture.cardTitle.title.text.id], cardArchitecture.cardTitle.title.text.type);
   }).value = cardTitle;
 }
 
@@ -444,18 +442,20 @@ function tileLayer(context, document) {
         }
 
         if (layers[i].pageIndex != 0) {
-          changeArtboard(selection[layers[i].index], document.pages.find(function (page) {
+          document.pages.find(function (page) {
             return page.name == "Sort-It";
-          }).layers[1]);
+          }).layers[layers[i].pageIndex].layers.push(selection[layers[i].index]); // changeArtboard(
+          //   selection[layers[i].index],
+          //   document.pages.find(page => page.name == "Sort-It").layers[1]
+          // );
         }
       }
     }
   }
-}
+} // function changeArtboard(oldLayer, newArtbort) {
+//   newArtbort.layers.push(oldLayer);
+// }
 
-function changeArtboard(oldLayer, newArtbort) {
-  newArtbort.layers.push(oldLayer);
-}
 
 function getNewArtboard(document) {
   artboardIndex++;

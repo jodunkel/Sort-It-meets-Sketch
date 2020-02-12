@@ -1,6 +1,6 @@
 import { Document, UI, Artboard } from "sketch";
-// import { log } from "util";
 
+let colorToCategory = [];
 let artboardIndex = 0;
 
 const cardArchitecture = {
@@ -97,7 +97,6 @@ const colorId = [
 
 export default function() {
   const path = process.cwd();
-
   Document.open(
     path.concat("/Contents/Resources/Sort-It.sketch"),
     (err, document) => {
@@ -155,7 +154,6 @@ function idCombiner(ids, type) {
 
 function categorieGenerator(sketchCard, categories) {
   const overrideValues = [];
-
   if (categories.length == 0) {
     const ids = [];
     ids.push(cardArchitecture.categoriesGroup.id);
@@ -251,7 +249,6 @@ function tagGenerator(sketchCard, tags, categorieID, category) {
         tagColor(sketchCard, categorieID, i, category));
   }
 }
-let colorToCategory = [];
 
 function colorIndexGenerator(index) {
   if (index < colorId.length) {
@@ -288,7 +285,6 @@ function controler(document, sortItData) {
   let symb = document
     .getSymbols()
     .find(symbols => symbols.name === "card/default");
-
   document.pages.find(page => page.name == "Sort-It").layers[0].layers = [];
   let x = 40;
   let y = 40;
@@ -408,12 +404,23 @@ function titleGenerator(sketchCard, cardTitle) {
   cardTitle == ""
     ? (sketchCard.overrides.find(
         override =>
-          override.id === "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA_symbolID"
+          override.id ===
+          idCombiner(
+            [cardArchitecture.cardTitle.id],
+            cardArchitecture.cardTitle.type
+          )
       ).value = "")
     : (sketchCard.overrides.find(
         override =>
           override.id ===
-          "224F17A7-37BA-4C63-8FB1-48B37E5F3EBA/E668F187-0C7B-49F1-A9BE-3DD7BC60CA1C/C767CA97-276D-4799-B23C-CB9DA65E2A3B_stringValue"
+          idCombiner(
+            [
+              cardArchitecture.cardTitle.id,
+              cardArchitecture.cardTitle.title.id,
+              cardArchitecture.cardTitle.title.text.id
+            ],
+            cardArchitecture.cardTitle.title.text.type
+          )
       ).value = cardTitle);
 }
 
@@ -422,21 +429,18 @@ function loadJSON() {
   openPanel.setTitle("Choose a JSON File");
   openPanel.setCanCreateDirectories = false;
   openPanel.setCanChooseFiles = true;
-
   var fileTypes = ["json"];
   var openPanelButtonPressed = openPanel.runModalForDirectory_file_types_(
     nil,
     nil,
     fileTypes
   );
-
   if (openPanelButtonPressed == NSFileHandlingPanelOKButton) {
     var filePath = openPanel.URL().path();
     var fwJSON = JSON.parse(NSString.stringWithContentsOfFile(filePath));
   } else {
     var fwJSON = false;
   }
-
   return fwJSON;
 }
 
@@ -446,7 +450,6 @@ function tileLayer(context, document) {
     for (let index = e; index < context.length; index += 4) {
       selection.push(context[index]);
     }
-
     if (selection.length < 2) {
       // doc.showMessage("Please select more than 2 layers.");
     } else {
@@ -486,19 +489,24 @@ function tileLayer(context, document) {
           selection[layers[i].index].frame.y = layers[i].y;
         }
         if (layers[i].pageIndex != 0) {
-          changeArtboard(
-            selection[layers[i].index],
-            document.pages.find(page => page.name == "Sort-It").layers[1]
-          );
+          document.pages
+            .find(page => page.name == "Sort-It")
+            .layers[layers[i].pageIndex].layers.push(
+              selection[layers[i].index]
+            );
+          // changeArtboard(
+          //   selection[layers[i].index],
+          //   document.pages.find(page => page.name == "Sort-It").layers[1]
+          // );
         }
       }
     }
   }
 }
 
-function changeArtboard(oldLayer, newArtbort) {
-  newArtbort.layers.push(oldLayer);
-}
+// function changeArtboard(oldLayer, newArtbort) {
+//   newArtbort.layers.push(oldLayer);
+// }
 
 function getNewArtboard(document) {
   artboardIndex++;
