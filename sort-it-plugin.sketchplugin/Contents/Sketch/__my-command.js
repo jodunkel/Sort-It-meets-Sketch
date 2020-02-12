@@ -106,8 +106,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sketch__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
- // import { log } from "util";
 
+var colorToCategory = [];
 var artboardIndex = 0;
 var cardArchitecture = {
   cardTitle: {
@@ -261,8 +261,6 @@ function tagGenerator(sketchCard, tags, categorieID, category) {
     _loop2(i);
   }
 }
-
-var colorToCategory = [];
 
 function colorIndexGenerator(index) {
   if (index < colorId.length) {
@@ -444,18 +442,20 @@ function tileLayer(context, document) {
         }
 
         if (layers[i].pageIndex != 0) {
-          changeArtboard(selection[layers[i].index], document.pages.find(function (page) {
+          document.pages.find(function (page) {
             return page.name == "Sort-It";
-          }).layers[1]);
+          }).layers[layers[i].pageIndex].layers.push(selection[layers[i].index]); // changeArtboard(
+          //   selection[layers[i].index],
+          //   document.pages.find(page => page.name == "Sort-It").layers[1]
+          // );
         }
       }
     }
   }
-}
+} // function changeArtboard(oldLayer, newArtbort) {
+//   newArtbort.layers.push(oldLayer);
+// }
 
-function changeArtboard(oldLayer, newArtbort) {
-  newArtbort.layers.push(oldLayer);
-}
 
 function getNewArtboard(document) {
   artboardIndex++;
