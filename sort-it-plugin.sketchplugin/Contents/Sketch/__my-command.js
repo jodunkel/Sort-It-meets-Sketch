@@ -444,18 +444,12 @@ function tileLayer(context, document) {
         if (layers[i].pageIndex != 0) {
           document.pages.find(function (page) {
             return page.name == "Sort-It";
-          }).layers[layers[i].pageIndex].layers.push(selection[layers[i].index]); // changeArtboard(
-          //   selection[layers[i].index],
-          //   document.pages.find(page => page.name == "Sort-It").layers[1]
-          // );
+          }).layers[layers[i].pageIndex].layers.push(selection[layers[i].index]);
         }
       }
     }
   }
-} // function changeArtboard(oldLayer, newArtbort) {
-//   newArtbort.layers.push(oldLayer);
-// }
-
+}
 
 function getNewArtboard(document) {
   artboardIndex++;

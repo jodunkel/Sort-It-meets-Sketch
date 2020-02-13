@@ -494,19 +494,11 @@ function tileLayer(context, document) {
             .layers[layers[i].pageIndex].layers.push(
               selection[layers[i].index]
             );
-          // changeArtboard(
-          //   selection[layers[i].index],
-          //   document.pages.find(page => page.name == "Sort-It").layers[1]
-          // );
         }
       }
     }
   }
 }
-
-// function changeArtboard(oldLayer, newArtbort) {
-//   newArtbort.layers.push(oldLayer);
-// }
 
 function getNewArtboard(document) {
   artboardIndex++;
