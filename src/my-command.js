@@ -293,14 +293,74 @@ function controler(document, sortItData) {
       c.title === "SYSTEM-ATTRIBUTE-root" ||
       c.title === "SYSTEM-ATTRIBUTE-default"
   ).content; //   "SYSTEM-ATTRIBUTE-root"   "SYSTEM-ATTRIBUTE-default"
+
+  let directorys = ["Import all directorys", "All cards without a directory"];
+  var directory = "";
+
+  sortItCOrD.forEach(function(cOrD) {
+    if (
+      cOrD.attributes.find(
+        attribut => attribut.label == "SYSTEM-ATTRIBUTE-display-as"
+      ).value[0] == "directory"
+    ) {
+      directorys.push(cOrD.title);
+    }
+  });
+
+  if (directorys.length > 2) {
+    UI.getInputFromUser(
+      "Which directory do you want to import?",
+      {
+        type: UI.INPUT_TYPE.selection,
+        possibleValues: directorys
+      },
+      (err, value) => {
+        if (err) {
+          UI.alert(
+            "Oops something went wrong 😬",
+            "This is probably a mistake with the category selection."
+          );
+          // most likely the user canceled the input
+          return;
+        }
+        directory = value;
+      }
+    );
+  }
+
   let sortItCards = [];
-  sortItCOrD.map(cOrD =>
-    cOrD.attributes.find(
-      attribut => attribut.label == "SYSTEM-ATTRIBUTE-display-as"
-    ).value[0] == "directory"
-      ? (sortItCards = sortItCards.concat(cOrD.content))
-      : (sortItCards = sortItCards.concat(cOrD))
-  );
+
+  if (
+    directory != "" &&
+    directory != "Import all directorys" &&
+    directory != "All cards without a directory"
+  ) {
+    sortItCards = sortItCOrD.find(
+      dir =>
+        dir.title == directory &&
+        dir.attributes.find(
+          attribut => attribut.label == "SYSTEM-ATTRIBUTE-display-as"
+        ).value[0] == "directory"
+    ).content;
+  } else {
+    if (directory == "All cards without a directory") {
+      sortItCards = sortItCOrD.filter(
+        cOrD =>
+          cOrD.attributes.find(
+            attribut => attribut.label == "SYSTEM-ATTRIBUTE-display-as"
+          ).value[0] == "card"
+      );
+    } else {
+      sortItCOrD.map(cOrD =>
+        cOrD.attributes.find(
+          attribut => attribut.label == "SYSTEM-ATTRIBUTE-display-as"
+        ).value[0] == "card"
+          ? (sortItCards = sortItCards.concat(cOrD))
+          : (sortItCards = sortItCards.concat(cOrD.content))
+      );
+    }
+  }
+
   for (let index = 0; index < sortItCards.length; index++) {
     const newSymb = symb.createNewInstance();
     newSymb.frame.x = x;
