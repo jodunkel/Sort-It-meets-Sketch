@@ -298,12 +298,54 @@ function controler(document, sortItData) {
     return c.title === "SYSTEM-ATTRIBUTE-root" || c.title === "SYSTEM-ATTRIBUTE-default";
   }).content; //   "SYSTEM-ATTRIBUTE-root"   "SYSTEM-ATTRIBUTE-default"
 
-  var sortItCards = [];
-  sortItCOrD.map(function (cOrD) {
-    return cOrD.attributes.find(function (attribut) {
+  var directorys = ["Import all directorys", "All cards without a directory"];
+  var directory = "";
+  sortItCOrD.forEach(function (cOrD) {
+    if (cOrD.attributes.find(function (attribut) {
       return attribut.label == "SYSTEM-ATTRIBUTE-display-as";
-    }).value[0] == "directory" ? sortItCards = sortItCards.concat(cOrD.content) : sortItCards = sortItCards.concat(cOrD);
+    }).value[0] == "directory") {
+      directorys.push(cOrD.title);
+    }
   });
+
+  if (directorys.length > 2) {
+    sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].getInputFromUser("Which directory do you want to import?", {
+      type: sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].INPUT_TYPE.selection,
+      possibleValues: directorys
+    }, function (err, value) {
+      if (err) {
+        sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Oops something went wrong 😬", "This is probably a mistake with the category selection."); // most likely the user canceled the input
+
+        return;
+      }
+
+      directory = value;
+    });
+  }
+
+  var sortItCards = [];
+
+  if (directory != "" && directory != "Import all directorys" && directory != "All cards without a directory") {
+    sortItCards = sortItCOrD.find(function (dir) {
+      return dir.title == directory && dir.attributes.find(function (attribut) {
+        return attribut.label == "SYSTEM-ATTRIBUTE-display-as";
+      }).value[0] == "directory";
+    }).content;
+  } else {
+    if (directory == "All cards without a directory") {
+      sortItCards = sortItCOrD.filter(function (cOrD) {
+        return cOrD.attributes.find(function (attribut) {
+          return attribut.label == "SYSTEM-ATTRIBUTE-display-as";
+        }).value[0] == "card";
+      });
+    } else {
+      sortItCOrD.map(function (cOrD) {
+        return cOrD.attributes.find(function (attribut) {
+          return attribut.label == "SYSTEM-ATTRIBUTE-display-as";
+        }).value[0] == "card" ? sortItCards = sortItCards.concat(cOrD) : sortItCards = sortItCards.concat(cOrD.content);
+      });
+    }
+  }
 
   for (var index = 0; index < sortItCards.length; index++) {
     var newSymb = symb.createNewInstance();
@@ -444,18 +486,12 @@ function tileLayer(context, document) {
         if (layers[i].pageIndex != 0) {
           document.pages.find(function (page) {
             return page.name == "Sort-It";
-          }).layers[layers[i].pageIndex].layers.push(selection[layers[i].index]); // changeArtboard(
-          //   selection[layers[i].index],
-          //   document.pages.find(page => page.name == "Sort-It").layers[1]
-          // );
+          }).layers[layers[i].pageIndex].layers.push(selection[layers[i].index]);
         }
       }
     }
   }
-} // function changeArtboard(oldLayer, newArtbort) {
-//   newArtbort.layers.push(oldLayer);
-// }
-
+}
 
 function getNewArtboard(document) {
   artboardIndex++;
