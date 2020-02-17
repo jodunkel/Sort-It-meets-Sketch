@@ -189,8 +189,8 @@ var colorId = [// "#87125A" "#09676E" "#87125A" "#D01E8C" "#0D97A1" "#2D51B2" "#
     sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Choose your Sort-It File", "It must be a JSON file exported from Sort-It!");
     var sortItData = loadJSON();
 
-    if (sortItData == false || sortItData == undefined) {
-      sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Oops something went wrong 😬", "You must select a Sort-It file to continue. If you have selected a file, something has gone wrong.");
+    if (sortItData == false || sortItData == undefined || sortItData.version != "2.0") {
+      sketch__WEBPACK_IMPORTED_MODULE_0__["UI"].alert("Oops something went wrong 😬", "You must select a Sort-It file to continue. If you have selected a file, something has gone wrong or it is not a file of generation '2.0'.");
       document.close();
       return;
     }

@@ -120,10 +120,14 @@ export default function() {
         "It must be a JSON file exported from Sort-It!"
       );
       let sortItData = loadJSON();
-      if (sortItData == false || sortItData == undefined) {
+      if (
+        sortItData == false ||
+        sortItData == undefined ||
+        sortItData.version != "2.0"
+      ) {
         UI.alert(
           "Oops something went wrong 😬",
-          "You must select a Sort-It file to continue. If you have selected a file, something has gone wrong."
+          "You must select a Sort-It file to continue. If you have selected a file, something has gone wrong or it is not a file of generation '2.0'."
         );
         document.close();
         return;
