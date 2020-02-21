@@ -145,7 +145,7 @@ export default function() {
         return;
       }
       document.save();
-      UI.message("The file has been saved to your desktop. 💾 ");
+      UI.message("The file has been saved to your desktop. 💾");
     }
   );
 }
